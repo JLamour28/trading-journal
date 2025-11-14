@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Trade - Trading Journal</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header Navigation -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="nav-brand">
+          <i class="fas fa-chart-line"></i>
+          <span>TradeJournal</span>
+        </div>
+        <div class="nav-menu">
+          <a href="../index.html" class="nav-link">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </a>
+          <a href="add-trade.html" class="nav-link active">
+            <i class="fas fa-plus-circle"></i> Add Trade
+          </a>
+          <a href="trade-list.html" class="nav-link">
+            <i class="fas fa-list"></i> Trades
+          </a>
+          <a href="settings.html" class="nav-link">
+            <i class="fas fa-cog"></i> Settings
+          </a>
+        </div>
+        <button class="mobile-menu-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div class="header-left">
+            <h1>Add New Trade</h1>
+            <p>Record your trade details and journal your thoughts</p>
+          </div>
+          <div class="header-actions">
+            <a href="../index.html" class="btn btn-secondary">
+              <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+          </div>
+        </div>
+
+        <!-- Trade Form -->
+        <form id="tradeForm" class="trade-form">
+          <!-- Basic Information Section -->
+          <section class="form-section">
+            <h2><i class="fas fa-info-circle"></i> Basic Information</h2>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="assetType">Asset Type *</label>
+                <select id="assetType" name="assetType" required>
+                  <option value="">Select Asset Type</option>
+                  <option value="stocks">Stocks</option>
+                  <option value="forex">Forex</option>
+                  <option value="crypto">Cryptocurrency</option>
+                  <option value="options">Options</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="symbol">Symbol/Ticker *</label>
+                <input
+                  type="text"
+                  id="symbol"
+                  name="symbol"
+                  required
+                  placeholder="e.g., AAPL, BTC/USD, EUR/USD"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="exchange">Exchange</label>
+                <select id="exchange" name="exchange">
+                  <option value="">Select Exchange</option>
+                  <optgroup label="Stocks">
+                    <option value="NYSE">NYSE</option>
+                    <option value="NASDAQ">NASDAQ</option>
+                    <option value="LSE">LSE</option>
+                  </optgroup>
+                  <optgroup label="Crypto">
+                    <option value="Binance">Binance</option>
+                    <option value="Coinbase">Coinbase</option>
+                    <option value="Kraken">Kraken</option>
+                  </optgroup>
+                  <optgroup label="Forex">
+                    <option value="Forex.com">Forex.com</option>
+                    <option value="OANDA">OANDA</option>
+                    <option value="MetaTrader">MetaTrader</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Trade Direction *</label>
+                <div class="radio-group">
+                  <label class="radio-option">
+                    <input
+                      type="radio"
+                      name="direction"
+                      value="long"
+                      required
+                    />
+                    <span class="radio-label">Long / Buy</span>
+                  </label>
+                  <label class="radio-option">
+                    <input
+                      type="radio"
+                      name="direction"
+                      value="short"
+                      required
+                    />
+                    <span class="radio-label">Short / Sell</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="status">Trade Status</label>
+                <select id="status" name="status">
+                  <option value="open">Open</option>
+                  <option value="closed">Closed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="rating">Trade Rating</label>
+                <div class="rating-group">
+                  <input
+                    type="range"
+                    id="rating"
+                    name="rating"
+                    min="1"
+                    max="5"
+                    value="3"
+                  />
+                  <div class="rating-display">
+                    <span id="ratingValue">3</span>
+                    <div class="rating-stars">
+                      <i class="fas fa-star" data-rating="1"></i>
+                      <i class="fas fa-star" data-rating="2"></i>
+                      <i class="fas fa-star" data-rating="3"></i>
+                      <i class="fas fa-star" data-rating="4"></i>
+                      <i class="fas fa-star" data-rating="5"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Position Details Section -->
+          <section class="form-section">
+            <h2><i class="fas fa-chart-bar"></i> Position Details</h2>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="positionSize">Position Size *</label>
+                <input
+                  type="number"
+                  id="positionSize"
+                  name="positionSize"
+                  required
+                  step="0.01"
+                  min="0.01"
+                  placeholder="e.g., 100"
+                />
+                <small class="form-hint"
+                  >Number of shares, contracts, or lots</small
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="entryPrice">Entry Price *</label>
+                <input
+                  type="number"
+                  id="entryPrice"
+                  name="entryPrice"
+                  required
+                  step="0.01"
+                  min="0.01"
+                  placeholder="e.g., 150.25"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="entryDate">Entry Date & Time *</label>
+                <input
+                  type="datetime-local"
+                  id="entryDate"
+                  name="entryDate"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="exitPrice">Exit Price</label>
+                <input
+                  type="number"
+                  id="exitPrice"
+                  name="exitPrice"
+                  step="0.01"
+                  min="0.01"
+                  placeholder="e.g., 155.50"
+                />
+                <small class="form-hint">Leave blank for open positions</small>
+              </div>
+
+              <div class="form-group">
+                <label for="exitDate">Exit Date & Time</label>
+                <input type="datetime-local" id="exitDate" name="exitDate" />
+                <small class="form-hint">Leave blank for open positions</small>
+              </div>
+
+              <div class="form-group">
+                <label for="commission">Commission/Fees</label>
+                <input
+                  type="number"
+                  id="commission"
+                  name="commission"
+                  step="0.01"
+                  min="0"
+                  value="0"
+                  placeholder="e.g., 5.00"
+                />
+              </div>
+            </div>
+          </section>
+
+          <!-- Risk Management Section -->
+          <section class="form-section">
+            <h2><i class="fas fa-shield-alt"></i> Risk Management</h2>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="stopLoss">Stop Loss</label>
+                <input
+                  type="number"
+                  id="stopLoss"
+                  name="stopLoss"
+                  step="0.01"
+                  min="0.01"
+                  placeholder="e.g., 148.00"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="takeProfit">Take Profit</label>
+                <input
+                  type="number"
+                  id="takeProfit"
+                  name="takeProfit"
+                  step="0.01"
+                  min="0.01"
+                  placeholder="e.g., 155.00"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="accountSize">Account Size</label>
+                <input
+                  type="number"
+                  id="accountSize"
+                  name="accountSize"
+                  step="0.01"
+                  min="0.01"
+                  value="10000"
+                  placeholder="e.g., 10000"
+                />
+              </div>
+
+              <!-- Calculated Risk Metrics -->
+              <div class="form-group calculated-metrics">
+                <label>Calculated Risk Metrics</label>
+                <div class="metrics-display">
+                  <div class="metric">
+                    <span class="metric-label">Risk Amount:</span>
+                    <span id="riskAmount" class="metric-value">$0.00</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Reward Amount:</span>
+                    <span id="rewardAmount" class="metric-value">$0.00</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">R:R Ratio:</span>
+                    <span id="riskRewardRatio" class="metric-value"
+                      >0.00:1</span
+                    >
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Risk %:</span>
+                    <span id="riskPercent" class="metric-value">0.00%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Trade Journal Section -->
+          <section class="form-section">
+            <h2><i class="fas fa-book"></i> Trade Journal</h2>
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="strategy">Trading Strategy</label>
+                <select id="strategy" name="strategy">
+                  <option value="">Select Strategy</option>
+                  <option value="Momentum">Momentum</option>
+                  <option value="Mean Reversion">Mean Reversion</option>
+                  <option value="Breakout">Breakout</option>
+                  <option value="Scalping">Scalping</option>
+                  <option value="Swing Trading">Swing Trading</option>
+                  <option value="Day Trading">Day Trading</option>
+                  <option value="Position Trading">Position Trading</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="emotionalState">Emotional State</label>
+                <select id="emotionalState" name="emotionalState">
+                  <option value="">Select State</option>
+                  <option value="calm">Calm</option>
+                  <option value="anxious">Anxious</option>
+                  <option value="greedy">Greedy</option>
+                  <option value="fearful">Fearful</option>
+                  <option value="neutral">Neutral</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="marketConditions">Market Conditions</label>
+                <select id="marketConditions" name="marketConditions">
+                  <option value="">Select Conditions</option>
+                  <option value="trending">Trending</option>
+                  <option value="ranging">Ranging</option>
+                  <option value="volatile">Volatile</option>
+                  <option value="quiet">Quiet</option>
+                </select>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="rationale">Trade Rationale</label>
+                <textarea
+                  id="rationale"
+                  name="rationale"
+                  rows="4"
+                  placeholder="Why did you enter this trade? What was your setup?"
+                ></textarea>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="exitReason">Exit Reason</label>
+                <textarea
+                  id="exitReason"
+                  name="exitReason"
+                  rows="3"
+                  placeholder="Why did you exit this trade?"
+                ></textarea>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="lessonsLearned">Lessons Learned</label>
+                <textarea
+                  id="lessonsLearned"
+                  name="lessonsLearned"
+                  rows="3"
+                  placeholder="What did you learn from this trade?"
+                ></textarea>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="mistakesMade">Mistakes Made</label>
+                <textarea
+                  id="mistakesMade"
+                  name="mistakesMade"
+                  rows="3"
+                  placeholder="What mistakes did you make? How can you improve?"
+                ></textarea>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="whatWentWell">What Went Well</label>
+                <textarea
+                  id="whatWentWell"
+                  name="whatWentWell"
+                  rows="3"
+                  placeholder="What did you do well in this trade?"
+                ></textarea>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tags Section -->
+          <section class="form-section">
+            <h2><i class="fas fa-tags"></i> Tags</h2>
+            <div class="form-group full-width">
+              <label for="tags">Trade Tags</label>
+              <div class="tags-input-container">
+                <input
+                  type="text"
+                  id="tagsInput"
+                  placeholder="Add tags and press Enter"
+                />
+                <div id="tagsList" class="tags-list"></div>
+              </div>
+              <small class="form-hint"
+                >Press Enter to add tags (e.g., breakout, momentum,
+                technical)</small
+              >
+            </div>
+          </section>
+
+          <!-- Form Actions -->
+          <section class="form-actions">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="resetForm()"
+            >
+              <i class="fas fa-undo"></i> Reset Form
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="saveAsDraft()"
+            >
+              <i class="fas fa-save"></i> Save as Draft
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-check"></i> Save Trade
+            </button>
+          </section>
+        </form>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 TradeJournal. Track. Analyze. Improve.</p>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/data-manager.js"></script>
+    <script src="../js/calculations.js"></script>
+    <script src="add-trade.js"></script>
+  </body>
+</html>

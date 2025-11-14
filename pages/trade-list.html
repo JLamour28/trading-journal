@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trade List - Trading Journal</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/forms.css" />
+    <link rel="stylesheet" href="../css/trade-list.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header Navigation -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="nav-brand">
+          <i class="fas fa-chart-line"></i>
+          <span>TradeJournal</span>
+        </div>
+        <div class="nav-menu">
+          <a href="../index.html" class="nav-link">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </a>
+          <a href="add-trade.html" class="nav-link">
+            <i class="fas fa-plus-circle"></i> Add Trade
+          </a>
+          <a href="trade-list.html" class="nav-link active">
+            <i class="fas fa-list"></i> Trades
+          </a>
+          <a href="settings.html" class="nav-link">
+            <i class="fas fa-cog"></i> Settings
+          </a>
+        </div>
+        <button class="mobile-menu-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div class="header-left">
+            <h1>Trade History</h1>
+            <p>View and manage all your trades</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-secondary" onclick="exportTrades()">
+              <i class="fas fa-download"></i> Export CSV
+            </button>
+            <a href="add-trade.html" class="btn btn-primary">
+              <i class="fas fa-plus"></i> Add Trade
+            </a>
+          </div>
+        </div>
+
+        <!-- Filters Section -->
+        <section class="filters-section">
+          <div class="filters-header">
+            <h3><i class="fas fa-filter"></i> Filters & Search</h3>
+            <button class="btn btn-sm btn-secondary" onclick="toggleFilters()">
+              <i class="fas fa-chevron-down" id="filterToggle"></i> Toggle
+            </button>
+          </div>
+
+          <div class="filters-content" id="filtersContent">
+            <div class="filters-grid">
+              <div class="form-group">
+                <label for="searchInput">Search Trades</label>
+                <div class="search-input-container">
+                  <i class="fas fa-search"></i>
+                  <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search by symbol, notes..."
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="assetTypeFilter">Asset Type</label>
+                <select id="assetTypeFilter">
+                  <option value="all">All Assets</option>
+                  <option value="stocks">Stocks</option>
+                  <option value="forex">Forex</option>
+                  <option value="crypto">Cryptocurrency</option>
+                  <option value="options">Options</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="statusFilter">Status</label>
+                <select id="statusFilter">
+                  <option value="all">All Status</option>
+                  <option value="open">Open</option>
+                  <option value="closed">Closed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="profitabilityFilter">Profitability</label>
+                <select id="profitabilityFilter">
+                  <option value="all">All Trades</option>
+                  <option value="profitable">Profitable Only</option>
+                  <option value="losing">Losing Only</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="strategyFilter">Strategy</label>
+                <select id="strategyFilter">
+                  <option value="all">All Strategies</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="sortBy">Sort By</label>
+                <select id="sortBy">
+                  <option value="date">Date (Newest First)</option>
+                  <option value="symbol">Symbol (A-Z)</option>
+                  <option value="pnl">P&L (High to Low)</option>
+                  <option value="rr">R:R Ratio (High to Low)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="startDate">Start Date</label>
+                <input type="date" id="startDate" />
+              </div>
+
+              <div class="form-group">
+                <label for="endDate">End Date</label>
+                <input type="date" id="endDate" />
+              </div>
+            </div>
+
+            <div class="filters-actions">
+              <button class="btn btn-secondary" onclick="clearFilters()">
+                <i class="fas fa-times"></i> Clear Filters
+              </button>
+              <button class="btn btn-primary" onclick="applyFilters()">
+                <i class="fas fa-check"></i> Apply Filters
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Trade Statistics -->
+        <section class="trade-stats-section">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <h4>Filtered Trades</h4>
+                <i class="fas fa-exchange-alt"></i>
+              </div>
+              <div class="stat-value" id="filteredTradesCount">0</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <h4>Total P&L</h4>
+                <i class="fas fa-dollar-sign"></i>
+              </div>
+              <div class="stat-value" id="filteredTotalPL">$0.00</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <h4>Win Rate</h4>
+                <i class="fas fa-percentage"></i>
+              </div>
+              <div class="stat-value" id="filteredWinRate">0%</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <h4>Avg R:R</h4>
+                <i class="fas fa-balance-scale"></i>
+              </div>
+              <div class="stat-value" id="filteredAvgRR">0.00:1</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Trades Table -->
+        <section class="trades-table-section">
+          <div class="table-container">
+            <table class="trades-table" id="tradesTable">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Symbol</th>
+                  <th>Type</th>
+                  <th>Direction</th>
+                  <th>Entry</th>
+                  <th>Exit</th>
+                  <th>Size</th>
+                  <th>P&L</th>
+                  <th>R:R</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tradesTableBody">
+                <!-- Trades will be populated here -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty State -->
+          <div class="empty-state" id="emptyState" style="display: none">
+            <i class="fas fa-inbox"></i>
+            <h3>No trades found</h3>
+            <p>
+              Try adjusting your filters or add your first trade to get started.
+            </p>
+            <a href="add-trade.html" class="btn btn-primary">Add Trade</a>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination" id="pagination">
+            <!-- Pagination will be populated here -->
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 TradeJournal. Track. Analyze. Improve.</p>
+      </div>
+    </footer>
+
+    <!-- Trade Detail Modal -->
+    <div class="modal" id="tradeModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Trade Details</h3>
+          <button class="modal-close" onclick="closeTradeModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body" id="tradeModalBody">
+          <!-- Trade details will be populated here -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="closeTradeModal()">
+            Close
+          </button>
+          <button class="btn btn-primary" id="editTradeBtn">Edit Trade</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/data-manager.js"></script>
+    <script src="../js/calculations.js"></script>
+    <script src="trade-list.js"></script>
+  </body>
+</html>
